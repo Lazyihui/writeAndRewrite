@@ -16,11 +16,6 @@ public class Main : MonoBehaviour {
         panel_Login.Ctor();
         panel_Login.OnNewGameHandle = () => {
             GameBussiness.NewGame(ctx);
-            // if (ctx.roleEntity == null) {
-            //     Debug.LogError("RoleEntity is null");
-            // } else {
-            //     Debug.Log("RoleEntity is not null");
-            // }
             panel_Login.Hide();
         };
 
@@ -32,7 +27,7 @@ public class Main : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.O)) {
             GameBussiness.SaveGame(ctx);
         }
     }
