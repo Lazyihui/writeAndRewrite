@@ -1,3 +1,4 @@
-public class GameContext { 
-    
+public class GameContext {
+    public RoleEntity roleEntity;
+
 }
