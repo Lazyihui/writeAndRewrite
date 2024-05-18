@@ -2,6 +2,9 @@ using System;
 using System.IO;
 using System.Collections;
 using UnityEngine;
+using GameFunctions;
+
+
 public static class GameBussiness {
 
     public static void NewGame(GameContext ctx) {
@@ -52,33 +55,27 @@ public static class GameBussiness {
     #region SaveType2
     static void SaveType2(Vector2 pos) {
 
-        byte[] data = new byte[8];
+        byte[] data = new byte[1024];
+        int offset = 2;
+        GFBufferEncoderWriter.WriteSingle(data,pos.x,ref offset);
+        GFBufferEncoderWriter.WriteSingle(data,pos.y,ref offset);
+        int length = offset;
+        GFBufferEncoderWriter.WriteUInt16(data, (ushort)length, ref offset);
 
-        float x = pos.x;
-        int xInt = (int)(pos.x);
-        int yInt = (int)(pos.y);
-
-        data[0] = (byte)(xInt);
-        data[1] = (byte)(xInt >> 8);
-        data[2] = (byte)(xInt >> 16);
-        data[3] = (byte)(xInt >> 24);
-
-        data[4] = (byte)(yInt);
-        data[5] = (byte)(yInt >> 8);
-        data[6] = (byte)(yInt >> 16);
-        data[7] = (byte)(yInt >> 24);
-
-        File.WriteAllBytes("/save.dat", data);
-
+        using (FileStream fs = new FileStream("slot1.save", FileMode.Create)) {
+            fs.Write(data, 0, length);
+        }
     }
 
     static Vector2 LoadType2() {
-        byte[] data = File.ReadAllBytes("/save.dat");
+        byte[] data = File.ReadAllBytes("slot1.save");
+        int offset = 0;
 
-        int xInt = data[0] | data[1] << 8 | data[2] << 16 | data[3] << 24;
-        int yInt = data[4] | data[5] << 8 | data[6] << 16 | data[7] << 24;
+        int length = GFBufferEncoderReader.ReadUInt16(data, ref offset);
+        float x = GFBufferEncoderReader.ReadSingle(data, ref offset);
+        float y = GFBufferEncoderReader.ReadSingle(data, ref offset);
 
-        return new Vector2(xInt, yInt);
+        return new Vector2(x, y);
 
     }
 

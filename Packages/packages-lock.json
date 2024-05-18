@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.gamearki.gamefunctions": {
+      "version": "ssh://git@github.com/GameArki/GameFunctions.git?path=Assets",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "c0c61897b6e2354228b3458553f40b8aa8731c6a"
+    },
     "com.unity.2d.animation": {
       "version": "10.0.3",
       "depth": 1,
